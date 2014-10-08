@@ -1,4 +1,4 @@
-package jena.example;
+package jena.examples;
 
 import jena.example.vocabulary.CRM;
 import jena.example.vocabulary.DC;

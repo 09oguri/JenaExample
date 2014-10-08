@@ -16,19 +16,18 @@
  * limitations under the License.
  */
 
-package jena.tutorial;
+package jena.examples.rdf;
 
 import com.hp.hpl.jena.rdf.model.*;
 import com.hp.hpl.jena.util.FileManager;
 import com.hp.hpl.jena.vocabulary.*;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 
-/** Tutorial 10 - demonstrate a container
+
+/** Tutorial 8 - demonstrate Selector methods
  */
-public class Tutorial10 extends Object {
+public class Tutorial08 extends Object {
     
     static final String inputFileName = "vc-db-1.rdf";
     
@@ -36,17 +35,14 @@ public class Tutorial10 extends Object {
         // create an empty model
         Model model = ModelFactory.createDefaultModel();
        
-        // use the class loader to find the input file
-        InputStream in = FileManager.get().open( inputFileName );
+        // use the FileManager to find the input file
+        InputStream in = FileManager.get().open(inputFileName);
         if (in == null) {
             throw new IllegalArgumentException( "File: " + inputFileName + " not found");
         }
         
         // read the RDF/XML file
-        model.read(new InputStreamReader(in), "");
-        
-        // create a bag
-        Bag smiths = model.createBag();
+        model.read( in, "" );
         
         // select all the resources with a VCARD.FN property
         // whose value ends with "Smith"
@@ -58,27 +54,14 @@ public class Tutorial10 extends Object {
                             return s.getString().endsWith("Smith");
                     }
                 });
-        // add the Smith's to the bag
-        while (iter.hasNext()) {
-            smiths.add( iter.nextStatement().getSubject());
-        }
-        
-        // print the graph as RDF/XML
-        model.write(new PrintWriter(System.out));
-        System.out.println();
-        
-        // print out the members of the bag
-        NodeIterator iter2 = smiths.iterator();
-        if (iter2.hasNext()) {
-            System.out.println("The bag contains:");
-            while (iter2.hasNext()) {
-                System.out.println("  " +
-                    ((Resource) iter2.next())
-                                     .getRequiredProperty(VCARD.FN)
-                                     .getString());
+        if (iter.hasNext()) {
+            System.out.println("The database contains vcards for:");
+            while (iter.hasNext()) {
+                System.out.println("  " + iter.nextStatement()
+                                              .getString());
             }
         } else {
-            System.out.println("The bag is empty");
-        }
+            System.out.println("No Smith's were found in the database");
+        }            
     }
 }

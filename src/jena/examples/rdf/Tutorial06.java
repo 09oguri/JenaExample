@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package jena.tutorial;
+package jena.examples.rdf;
 
 import com.hp.hpl.jena.rdf.model.*;
 import com.hp.hpl.jena.util.FileManager;
@@ -24,11 +24,12 @@ import com.hp.hpl.jena.vocabulary.*;
 
 import java.io.*;
 
-/** Tutorial 7 - selecting the VCARD resources
+/** Tutorial navigating a model
  */
-public class Tutorial07 extends Object {
+public class Tutorial06 extends Object {
     
     static final String inputFileName = "vc-db-1.rdf";
+    static final String johnSmithURI = "http://somewhere/JohnSmith/";
     
     public static void main (String args[]) {
         // create an empty model
@@ -41,19 +42,28 @@ public class Tutorial07 extends Object {
         }
         
         // read the RDF/XML file
-        model.read( in, "");
+        model.read(new InputStreamReader(in), "");
         
-        // select all the resources with a VCARD.FN property
-        ResIterator iter = model.listResourcesWithProperty(VCARD.FN);
-        if (iter.hasNext()) {
-            System.out.println("The database contains vcards for:");
-            while (iter.hasNext()) {
-                System.out.println("  " + iter.nextResource()
-                                              .getRequiredProperty(VCARD.FN)
-                                              .getString() );
-            }
-        } else {
-            System.out.println("No vcards were found in the database");
-        }            
+        // retrieve the Adam Smith vcard resource from the model
+        Resource vcard = model.getResource(johnSmithURI);
+
+        // retrieve the value of the N property
+        Resource name = (Resource) vcard.getRequiredProperty(VCARD.N)
+                                        .getObject();
+        // retrieve the given name property
+        String fullName = vcard.getRequiredProperty(VCARD.FN)
+                               .getString();
+        // add two nick name properties to vcard
+        vcard.addProperty(VCARD.NICKNAME, "Smithy")
+             .addProperty(VCARD.NICKNAME, "Adman");
+        
+        // set up the output
+        System.out.println("The nicknames of \"" + fullName + "\" are:");
+        // list the nicknames
+        StmtIterator iter = vcard.listProperties(VCARD.NICKNAME);
+        while (iter.hasNext()) {
+            System.out.println("    " + iter.nextStatement().getObject()
+                                            .toString());
+        }
     }
 }

@@ -1,4 +1,4 @@
-package jena.example;
+package jena.examples;
 
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;

@@ -16,44 +16,27 @@
  * limitations under the License.
  */
 
-package jena.tutorial;
+package jena.examples.rdf;
 
 import com.hp.hpl.jena.rdf.model.*;
 import com.hp.hpl.jena.vocabulary.*;
 
-import java.io.PrintWriter;
-
-/** Tutorial 11 - more on literals
+/** Tutorial 1 creating a simple model
  */
-public class Tutorial11 extends Object {
+
+public class Tutorial01 extends Object {
+    // some definitions
+    static String personURI    = "http://somewhere/JohnSmith";
+    static String fullName     = "John Smith";
     
       public static void main (String args[]) {
-        // create an empty graph
+        // create an empty model
         Model model = ModelFactory.createDefaultModel();
 
        // create the resource
-       Resource r = model.createResource();                                     
+       Resource johnSmith = model.createResource(personURI);
 
       // add the property
-      r.addProperty(RDFS.label, model.createLiteral("chat", "en"))
-       .addProperty(RDFS.label, model.createLiteral("chat", "fr"))
-       .addProperty(RDFS.label, model.createLiteral("<em>chat</em>", true));
-      
-      // write out the graph
-      model.write(new PrintWriter(System.out));
-      System.out.println();
-      
-      // create an empty graph
-      model = ModelFactory.createDefaultModel();
-
-       // create the resource
-       r = model.createResource();                                     
-
-      // add the property
-      r.addProperty(RDFS.label, "11")
-       .addLiteral(RDFS.label, 11);
-      
-      // write out the graph
-      model.write( System.out, "N-TRIPLE");
+      johnSmith.addProperty(VCARD.FN, fullName);
       }
 }

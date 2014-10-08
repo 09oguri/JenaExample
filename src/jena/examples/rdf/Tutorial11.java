@@ -16,33 +16,44 @@
  * limitations under the License.
  */
 
-package jena.tutorial;
+package jena.examples.rdf;
 
 import com.hp.hpl.jena.rdf.model.*;
 import com.hp.hpl.jena.vocabulary.*;
 
-/** Tutorial 2 resources as property values
+import java.io.PrintWriter;
+
+/** Tutorial 11 - more on literals
  */
-public class Tutorial02 extends Object {
+public class Tutorial11 extends Object {
     
       public static void main (String args[]) {
-        // some definitions
-        String personURI    = "http://somewhere/JohnSmith";
-        String givenName    = "John";
-        String familyName   = "Smith";
-        String fullName     = givenName + " " + familyName;
-
-        // create an empty model
+        // create an empty graph
         Model model = ModelFactory.createDefaultModel();
 
-        // create the resource
-        //   and add the properties cascading style
-        Resource johnSmith  = model.createResource(personURI)
-             .addProperty(VCARD.FN, fullName)
-             .addProperty(VCARD.N, 
-                      model.createResource()
-                           .addProperty(VCARD.Given, givenName)
-                           .addProperty(VCARD.Family, familyName));
-        
+       // create the resource
+       Resource r = model.createResource();                                     
+
+      // add the property
+      r.addProperty(RDFS.label, model.createLiteral("chat", "en"))
+       .addProperty(RDFS.label, model.createLiteral("chat", "fr"))
+       .addProperty(RDFS.label, model.createLiteral("<em>chat</em>", true));
+      
+      // write out the graph
+      model.write(new PrintWriter(System.out));
+      System.out.println();
+      
+      // create an empty graph
+      model = ModelFactory.createDefaultModel();
+
+       // create the resource
+       r = model.createResource();                                     
+
+      // add the property
+      r.addProperty(RDFS.label, "11")
+       .addLiteral(RDFS.label, 11);
+      
+      // write out the graph
+      model.write( System.out, "N-TRIPLE");
       }
 }

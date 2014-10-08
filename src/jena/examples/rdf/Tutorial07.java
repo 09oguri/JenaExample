@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package jena.tutorial;
+package jena.examples.rdf;
 
 import com.hp.hpl.jena.rdf.model.*;
 import com.hp.hpl.jena.util.FileManager;
@@ -24,10 +24,9 @@ import com.hp.hpl.jena.vocabulary.*;
 
 import java.io.*;
 
-
-/** Tutorial 8 - demonstrate Selector methods
+/** Tutorial 7 - selecting the VCARD resources
  */
-public class Tutorial08 extends Object {
+public class Tutorial07 extends Object {
     
     static final String inputFileName = "vc-db-1.rdf";
     
@@ -42,26 +41,19 @@ public class Tutorial08 extends Object {
         }
         
         // read the RDF/XML file
-        model.read( in, "" );
+        model.read( in, "");
         
         // select all the resources with a VCARD.FN property
-        // whose value ends with "Smith"
-        StmtIterator iter = model.listStatements(
-            new 
-                SimpleSelector(null, VCARD.FN, (RDFNode) null) {
-                    @Override
-                    public boolean selects(Statement s) {
-                            return s.getString().endsWith("Smith");
-                    }
-                });
+        ResIterator iter = model.listResourcesWithProperty(VCARD.FN);
         if (iter.hasNext()) {
             System.out.println("The database contains vcards for:");
             while (iter.hasNext()) {
-                System.out.println("  " + iter.nextStatement()
-                                              .getString());
+                System.out.println("  " + iter.nextResource()
+                                              .getRequiredProperty(VCARD.FN)
+                                              .getString() );
             }
         } else {
-            System.out.println("No Smith's were found in the database");
+            System.out.println("No vcards were found in the database");
         }            
     }
 }
