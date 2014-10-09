@@ -29,7 +29,7 @@ public class Example04 {
 		node4405.addProperty(DC.title, "北斎漫画");
 		node4405.addProperty(DC.created, "1814より");
 		node4405.addProperty(CRM.P55_has_current_location, node904);
-		
+
 		model.write(System.out, "TURTLE");
 		System.out.println("");
 	}
