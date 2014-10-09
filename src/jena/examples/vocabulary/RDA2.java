@@ -1,4 +1,4 @@
-package jena.example.vocabulary;
+package jena.examples.vocabulary;
 
 /* CVS $Id: $ */
 

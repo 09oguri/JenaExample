@@ -1,4 +1,4 @@
-package jena.example.vocabulary;
+package jena.examples.vocabulary;
 
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;

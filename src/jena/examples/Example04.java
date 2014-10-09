@@ -1,10 +1,10 @@
 package jena.examples;
 
-import jena.example.vocabulary.CRM;
-import jena.example.vocabulary.DC;
-import jena.example.vocabulary.FOAF;
-import jena.example.vocabulary.LODAC;
-import jena.example.vocabulary.RDA2;
+import jena.examples.vocabulary.CRM;
+import jena.examples.vocabulary.DC;
+import jena.examples.vocabulary.FOAF;
+import jena.examples.vocabulary.LODAC;
+import jena.examples.vocabulary.RDA2;
 
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
